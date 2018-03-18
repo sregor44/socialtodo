@@ -1,0 +1,90 @@
+{{#if errors}}
+<ul style="color:red" class="errors">
+  {{#each errors}}
+    {{this}}
+  {{/each}}
+</div>
+{{/if}}
+
+{{#if currentUser}}
+    <h2 class="welcome">Welcome, {{currentUser.name}}</h2>
+    <div>
+        <h3>Your Tasks</h3>
+
+        {{#if tasks}}
+            <ul class="tasks">
+            {{#each tasks}}
+            <h4>Task</h4>
+            <li>{{ name }}</li>
+            <h5>Description</h5>
+            <li>{{ description }}</li>
+            <h5>Completed?</h5>
+            <li>{{ isComplete }}</li>
+            <form class="delete" action="/tasks/{{ _id }}/delete" method="DELETE">
+              <label for="delete">Delete This Task</label>
+              <input class="submit" type="submit">
+            </form>
+            <h5></h5>
+            <form class="toggle" action="/tasks/:id/:action(complete|incomplete)" method="POST">
+              <label for="toggle">Toggle This Task</label>
+              <input class="submit" type="submit">
+            </form>
+            {{/each}}
+            </ul>
+        {{else}}
+            No tasks to show!
+        {{/if}}
+    </div>
+    <hr>
+    <div>
+        <form class="createtask" action="/task/create" method="POST">
+          <label for="name">Name of task</label>
+          <input name="name" type="text"><br>
+          <label for="description">Your description</label>
+          <input name="description" type="text"><br>
+          <label for="collaborators">Your collaborators</label>
+          <input name="collaborators" type="text"><br>
+          <input class="submit" type="submit">
+        </form>
+    </div>
+
+    <a href="/user/logout" class="logout">Logout</a>
+
+{{else}}
+
+<div><hr></div>
+
+<div>
+  LOGIN
+</div>
+
+<div>
+  <form class="login" action="/users/login" method="POST">
+    <label for="email">Email</label>
+    <input name="email" type="text"><br>
+    <label for="password">Password</label>
+    <input name="password" type="text"><br>
+    <input class="submit" type="submit">
+  </form>
+</div>
+
+<div><hr></div>
+
+<div>
+  REGISTER
+</div>
+
+<div>
+  <form action="/users/register" method="post" class="register" style="display: block;">
+    <label for="name">Name</label>
+    <input name="name" type="text" class="text-input" placeholder="name" value="">
+    <label for="email">Email</label>
+    <input name="email" type="email" class="text-input" placeholder="email" value="">
+    <label for="password">Password</label>
+    <input name="password" type="password" class="text-input" placeholder="password">
+    <label for="passwordConfirmation">Confirm Password</label>
+    <input name="passwordConfirmation" type="password" class="text-input" placeholder="password confirmation">
+    <input class="submit" type="submit">
+  </form>
+</div>
+{{/if}}
